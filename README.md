@@ -1,4 +1,3 @@
 # DU-MCA-2021
 Semester wise notes, assignments and exam papers of DU MCA batch 2021-2024
-Click below to download Syllabus
-<embed>https://drive.google.com/file/d/1ZvwTGuKW6InG1DbLxNnvFvjFBVwlsQNI/view?usp=sharing</embed>
+<embed>https://github.com/trickstereagle/DU-MCA-2021/blob/main/Annexure-41.%20Master%20of%20Computer%20Application.pdf</embed>
