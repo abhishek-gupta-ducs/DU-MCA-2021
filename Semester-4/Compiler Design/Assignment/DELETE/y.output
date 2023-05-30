@@ -1,0 +1,415 @@
+Grammar
+
+    0 $accept: line $end
+
+    1 line: delete
+
+    2 delete: DELETE from
+    3       | error
+
+    4 from: FROM table where
+    5     | FROM table semicolon NEWLINE
+    6     | error
+
+    7 table: IDENTIFIER
+    8      | error
+
+    9 where: WHERE condition semicolon NEWLINE
+   10      | error
+
+   11 condition: IDENTIFIER CONDITION IDENTIFIER
+   12          | IDENTIFIER CONDITION TEXT
+   13          | IDENTIFIER CONDITION NUMBER
+   14          | IDENTIFIER CONDITION IDENTIFIER ANDOR condition
+   15          | IDENTIFIER CONDITION TEXT ANDOR condition
+   16          | IDENTIFIER CONDITION NUMBER ANDOR condition
+   17          | NUMBER CONDITION NUMBER
+   18          | NUMBER CONDITION NUMBER ANDOR condition
+   19          | error
+
+   20 semicolon: SEMICOLON
+   21          | error
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256) 3 6 8 10 19 21
+    DELETE (258) 2
+    FROM (259) 4 5
+    IDENTIFIER (260) 7 11 12 13 14 15 16
+    WHERE (261) 9
+    ANDOR (262) 14 15 16 18
+    CONDITION (263) 11 12 13 14 15 16 17 18
+    SEMICOLON (264) 20
+    TEXT (265) 12 15
+    NUMBER (266) 13 16 17 18
+    NEWLINE (267) 5 9
+
+
+Nonterminals, with rules where they appear
+
+    $accept (13)
+        on left: 0
+    line (14)
+        on left: 1
+        on right: 0
+    delete (15)
+        on left: 2 3
+        on right: 1
+    from (16)
+        on left: 4 5 6
+        on right: 2
+    table (17)
+        on left: 7 8
+        on right: 4 5
+    where (18)
+        on left: 9 10
+        on right: 4
+    condition (19)
+        on left: 11 12 13 14 15 16 17 18 19
+        on right: 9 14 15 16 18
+    semicolon (20)
+        on left: 20 21
+        on right: 5 9
+
+
+State 0
+
+    0 $accept: • line $end
+
+    error   shift, and go to state 1
+    DELETE  shift, and go to state 2
+
+    line    go to state 3
+    delete  go to state 4
+
+
+State 1
+
+    3 delete: error •
+
+    $default  reduce using rule 3 (delete)
+
+
+State 2
+
+    2 delete: DELETE • from
+
+    error  shift, and go to state 5
+    FROM   shift, and go to state 6
+
+    from  go to state 7
+
+
+State 3
+
+    0 $accept: line • $end
+
+    $end  shift, and go to state 8
+
+
+State 4
+
+    1 line: delete •
+
+    $default  reduce using rule 1 (line)
+
+
+State 5
+
+    6 from: error •
+
+    $default  reduce using rule 6 (from)
+
+
+State 6
+
+    4 from: FROM • table where
+    5     | FROM • table semicolon NEWLINE
+
+    error       shift, and go to state 9
+    IDENTIFIER  shift, and go to state 10
+
+    table  go to state 11
+
+
+State 7
+
+    2 delete: DELETE from •
+
+    $default  reduce using rule 2 (delete)
+
+
+State 8
+
+    0 $accept: line $end •
+
+    $default  accept
+
+
+State 9
+
+    8 table: error •
+
+    $default  reduce using rule 8 (table)
+
+
+State 10
+
+    7 table: IDENTIFIER •
+
+    $default  reduce using rule 7 (table)
+
+
+State 11
+
+    4 from: FROM table • where
+    5     | FROM table • semicolon NEWLINE
+
+    error      shift, and go to state 12
+    WHERE      shift, and go to state 13
+    SEMICOLON  shift, and go to state 14
+
+    where      go to state 15
+    semicolon  go to state 16
+
+
+State 12
+
+   10 where: error •
+   21 semicolon: error •
+
+    NEWLINE   reduce using rule 21 (semicolon)
+    $default  reduce using rule 10 (where)
+
+
+State 13
+
+    9 where: WHERE • condition semicolon NEWLINE
+
+    error       shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    NUMBER      shift, and go to state 19
+
+    condition  go to state 20
+
+
+State 14
+
+   20 semicolon: SEMICOLON •
+
+    $default  reduce using rule 20 (semicolon)
+
+
+State 15
+
+    4 from: FROM table where •
+
+    $default  reduce using rule 4 (from)
+
+
+State 16
+
+    5 from: FROM table semicolon • NEWLINE
+
+    NEWLINE  shift, and go to state 21
+
+
+State 17
+
+   19 condition: error •
+
+    $default  reduce using rule 19 (condition)
+
+
+State 18
+
+   11 condition: IDENTIFIER • CONDITION IDENTIFIER
+   12          | IDENTIFIER • CONDITION TEXT
+   13          | IDENTIFIER • CONDITION NUMBER
+   14          | IDENTIFIER • CONDITION IDENTIFIER ANDOR condition
+   15          | IDENTIFIER • CONDITION TEXT ANDOR condition
+   16          | IDENTIFIER • CONDITION NUMBER ANDOR condition
+
+    CONDITION  shift, and go to state 22
+
+
+State 19
+
+   17 condition: NUMBER • CONDITION NUMBER
+   18          | NUMBER • CONDITION NUMBER ANDOR condition
+
+    CONDITION  shift, and go to state 23
+
+
+State 20
+
+    9 where: WHERE condition • semicolon NEWLINE
+
+    error      shift, and go to state 24
+    SEMICOLON  shift, and go to state 14
+
+    semicolon  go to state 25
+
+
+State 21
+
+    5 from: FROM table semicolon NEWLINE •
+
+    $default  reduce using rule 5 (from)
+
+
+State 22
+
+   11 condition: IDENTIFIER CONDITION • IDENTIFIER
+   12          | IDENTIFIER CONDITION • TEXT
+   13          | IDENTIFIER CONDITION • NUMBER
+   14          | IDENTIFIER CONDITION • IDENTIFIER ANDOR condition
+   15          | IDENTIFIER CONDITION • TEXT ANDOR condition
+   16          | IDENTIFIER CONDITION • NUMBER ANDOR condition
+
+    IDENTIFIER  shift, and go to state 26
+    TEXT        shift, and go to state 27
+    NUMBER      shift, and go to state 28
+
+
+State 23
+
+   17 condition: NUMBER CONDITION • NUMBER
+   18          | NUMBER CONDITION • NUMBER ANDOR condition
+
+    NUMBER  shift, and go to state 29
+
+
+State 24
+
+   21 semicolon: error •
+
+    $default  reduce using rule 21 (semicolon)
+
+
+State 25
+
+    9 where: WHERE condition semicolon • NEWLINE
+
+    NEWLINE  shift, and go to state 30
+
+
+State 26
+
+   11 condition: IDENTIFIER CONDITION IDENTIFIER •
+   14          | IDENTIFIER CONDITION IDENTIFIER • ANDOR condition
+
+    ANDOR  shift, and go to state 31
+
+    $default  reduce using rule 11 (condition)
+
+
+State 27
+
+   12 condition: IDENTIFIER CONDITION TEXT •
+   15          | IDENTIFIER CONDITION TEXT • ANDOR condition
+
+    ANDOR  shift, and go to state 32
+
+    $default  reduce using rule 12 (condition)
+
+
+State 28
+
+   13 condition: IDENTIFIER CONDITION NUMBER •
+   16          | IDENTIFIER CONDITION NUMBER • ANDOR condition
+
+    ANDOR  shift, and go to state 33
+
+    $default  reduce using rule 13 (condition)
+
+
+State 29
+
+   17 condition: NUMBER CONDITION NUMBER •
+   18          | NUMBER CONDITION NUMBER • ANDOR condition
+
+    ANDOR  shift, and go to state 34
+
+    $default  reduce using rule 17 (condition)
+
+
+State 30
+
+    9 where: WHERE condition semicolon NEWLINE •
+
+    $default  reduce using rule 9 (where)
+
+
+State 31
+
+   14 condition: IDENTIFIER CONDITION IDENTIFIER ANDOR • condition
+
+    error       shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    NUMBER      shift, and go to state 19
+
+    condition  go to state 35
+
+
+State 32
+
+   15 condition: IDENTIFIER CONDITION TEXT ANDOR • condition
+
+    error       shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    NUMBER      shift, and go to state 19
+
+    condition  go to state 36
+
+
+State 33
+
+   16 condition: IDENTIFIER CONDITION NUMBER ANDOR • condition
+
+    error       shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    NUMBER      shift, and go to state 19
+
+    condition  go to state 37
+
+
+State 34
+
+   18 condition: NUMBER CONDITION NUMBER ANDOR • condition
+
+    error       shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    NUMBER      shift, and go to state 19
+
+    condition  go to state 38
+
+
+State 35
+
+   14 condition: IDENTIFIER CONDITION IDENTIFIER ANDOR condition •
+
+    $default  reduce using rule 14 (condition)
+
+
+State 36
+
+   15 condition: IDENTIFIER CONDITION TEXT ANDOR condition •
+
+    $default  reduce using rule 15 (condition)
+
+
+State 37
+
+   16 condition: IDENTIFIER CONDITION NUMBER ANDOR condition •
+
+    $default  reduce using rule 16 (condition)
+
+
+State 38
+
+   18 condition: NUMBER CONDITION NUMBER ANDOR condition •
+
+    $default  reduce using rule 18 (condition)
